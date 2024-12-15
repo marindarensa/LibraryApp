@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,4 +22,5 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
 
     Route::resource('book', BookController::class);
     Route::resource('student', StudentController::class);
+    Route::resource('transaction', TransactionController::class);
 });

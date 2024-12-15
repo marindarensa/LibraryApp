@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Book;
-use App\Models\Student;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('dashboard.index', [
-            'title' => 'Dashboard',
-            'amount_book' => Book::count(),
-            'amount_student' => Student::count(),
-            'book_request' => Transaction::where('status', 0)->sum('amount'),
-            'book_return' => Transaction::where('status', 1)->sum('amount')
+        $transactions = Transaction::join('students', 'transactions.student_id', '=', 'students.id')
+            ->select('transactions.*', 'students.name as student_name')
+            ->orderBy('transactions.created_at', 'desc')
+            ->get();
+
+        return view('dashboard.transaction.index', [
+            'title' => 'Daftar Transaksi',
+            'transactions' => $transactions
         ]);
     }
 

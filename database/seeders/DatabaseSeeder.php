@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Book;
 use App\Models\Student;
+use App\Models\Transaction;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
 
         Book::factory(50)->create(); 
         Student::factory(50)->create();
+        Transaction::factory(50)->create();
     }
 }

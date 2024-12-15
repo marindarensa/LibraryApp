@@ -30,11 +30,7 @@
             'child' => [
                 [
                     'name' => 'Peminjaman Buku',
-                    'route' => null,
-                ],
-                [
-                    'name' => 'Pengembalian Buku',
-                    'route' => null,
+                    'route' => route('dashboard.transaction.index'),
                 ],
                 [
                     'name' => 'Unduh laporan',
