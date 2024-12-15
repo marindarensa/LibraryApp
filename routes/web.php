@@ -24,4 +24,6 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::resource('student', StudentController::class);
     Route::resource('transaction', TransactionController::class);
     Route::post('/transaction/{id}/return', [TransactionController::class, 'return'])->name('transaction.return');
+
+    Route::get('/report', [TransactionController::class, 'report'])->name('report');
 });

@@ -129,4 +129,29 @@ class TransactionController extends Controller
 
         return to_route('dashboard.transaction.index')->with('success', 'Transaction has been returned successfully!');
     }
+
+    public function report()
+    {
+        $transactions = Transaction::join('students', 'transactions.student_id', '=', 'students.id')
+            ->select('transactions.*', 'students.name as student_name')
+            ->orderBy('transactions.created_at', 'desc')
+            ->get()
+            ->map(function ($transaction) {
+                // get detail by transaction id
+                $detail = Detail::where('transaction_id', $transaction->id)->get();
+
+                return [
+                    'id' => $transaction->id,
+                    'code' => $transaction->code,
+                    'student_name' => $transaction->student_name,
+                    'status' => $transaction->status,
+                    'amount' => count($detail),
+                    'books' => Book::whereIn('id', $detail->pluck('book_id'))->get()
+                ];
+            });
+
+        return view('dashboard.transaction.report', [
+            'transactions' => $transactions
+        ]);
+    }
 }

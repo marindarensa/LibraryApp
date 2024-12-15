@@ -9,6 +9,9 @@
                     <a href="{{ route('dashboard.transaction.create') }}">
                         <button type="button" class="btn btn-primary ">Pinjam Buku</button>
                     </a>
+                    <a href="{{ route('dashboard.report') }}">
+                        <button type="button" class="btn btn-primary">Download Laporan</button>
+                    </a>
                 </h5>
                 <div class="card-body">
                     <table class="table">
