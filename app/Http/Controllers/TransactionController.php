@@ -134,7 +134,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::join('students', 'transactions.student_id', '=', 'students.id')
             ->select('transactions.*', 'students.name as student_name')
-            ->orderBy('transactions.created_at', 'desc')
+            ->orderBy('transactions.status', 'asc')
             ->get()
             ->map(function ($transaction) {
                 // get detail by transaction id
@@ -146,7 +146,7 @@ class TransactionController extends Controller
                     'student_name' => $transaction->student_name,
                     'status' => $transaction->status,
                     'amount' => count($detail),
-                    'books' => Book::whereIn('id', $detail->pluck('book_id'))->get()
+                    'books' => Book::whereIn('id', $detail->pluck('book_id'))->get(),
                 ];
             });
 
