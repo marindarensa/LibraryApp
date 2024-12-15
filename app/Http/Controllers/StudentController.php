@@ -93,4 +93,14 @@ class StudentController extends Controller
 
         return redirect()->route('dashboard.student.index')->with('success', 'Student has been deleted successfully!');
     }
+
+    public function report()
+    {
+        $students = Student::all();
+
+        return view('dashboard.student.report', [
+            'title' => 'Laporan Siswa',
+            'students' => $students
+        ]);
+    }
 }

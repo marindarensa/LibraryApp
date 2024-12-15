@@ -8,7 +8,7 @@ use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+   return redirect()->route('login');
 });
 
 
@@ -26,4 +26,5 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::post('/transaction/{id}/return', [TransactionController::class, 'return'])->name('transaction.return');
 
     Route::get('/report', [TransactionController::class, 'report'])->name('report');
+    Route::get('/report-student', [StudentController::class, 'report'])->name('report-student');
 });

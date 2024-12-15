@@ -9,6 +9,9 @@
                     <a href="{{ route('dashboard.student.create') }}">
                         <button type="button" class="btn btn-primary ">Tambah Siswa</button>
                     </a>
+                    <a href="{{ route('dashboard.report-student') }}" target="_blank">
+                        <button type="button" class="btn btn-primary">Download Laporan</button>
+                    </a>
                 </h5>
                 <div class="card-body">
                     <table class="table">
