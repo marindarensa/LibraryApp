@@ -34,8 +34,12 @@
                                     <td>{{ $transaction->created_at }}</td>
                                     <td></td>
                                     <td style="display:flex;gap:12px">
-                                        <a href="{{ route('dashboard.transaction.edit', $transaction->id) }}"
-                                            class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('dashboard.transaction.return', $transaction->id) }}" method="POST"
+                                            style="display: inline-block">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success return-book">Kembalikan</button>
+                                        </form>
+
                                         <form action="{{ route('dashboard.transaction.destroy', $transaction->id) }}" method="POST"
                                             style="display: inline-block">
                                             @csrf
@@ -51,4 +55,24 @@
         </div>
     </div>
 
+    <script>
+        $('.return-book').on('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Buku yang dipinjam akan dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#435ebe',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Kembalikan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $(this).parent().submit();
+                }
+            })
+        })
+    </script>
 @endsection

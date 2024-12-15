@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\Book;
+use App\Models\Detail;
 
 class TransactionController extends Controller
 {
@@ -28,7 +31,14 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        $students = Student::all();
+        $books = Book::all();
+
+        return view('dashboard.transaction.create', [
+            'title' => 'Tambah Transaksi',
+            'students' => $students,
+            'books' => $books
+        ]);
     }
 
     /**
@@ -36,7 +46,35 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'student_id' => 'required',
+            'book_id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        // make a code like YEAR:MONT:DAY
+        $code = date('Ymd');
+        $code = 'BOOK-' . $code . '-' . $request->student_id;
+
+        $transaction = Transaction::create([
+            'student_id' => $request->student_id,
+            'code' => $code,
+            'amount' => count($request->book_id)
+        ]);
+
+        foreach($request->book_id as $book) {
+            Detail::create([
+                'book_id' => $book,
+                'transaction_id' => $transaction->id,
+                'amount' => 1,
+                'status' => 0,
+                'start_at' => $request->start_date,
+                'end_at' => $request->end_date
+            ]);
+        }
+
+        return to_route('dashboard.transaction.index')->with('success', 'Transaction has been added successfully!');
     }
 
     /**
@@ -68,6 +106,27 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+
+        $detail = Detail::where('transaction_id', $id)->get();
+        $detail->each->delete();
+
+        return to_route('dashboard.transaction.index')->with('success', 'Transaction has been deleted successfully!');
+    }
+
+    public function return(Request $request, string $id) {
+        $detail = Detail::where('transaction_id', $id)->get();
+        
+        foreach($detail as $d) {
+            $d->status = 1;
+            $d->save();
+        }   
+
+        Transaction::where('id', $id)->update([
+            'status' => 1
+        ]);
+
+        return to_route('dashboard.transaction.index')->with('success', 'Transaction has been returned successfully!');
     }
 }

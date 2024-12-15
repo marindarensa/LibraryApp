@@ -25,18 +25,8 @@
         [
             'name' => 'Transaksi',
             'icon' => 'bx bx-book-add',
-            'route' => null,
+            'route' => route('dashboard.transaction.index'),
             'is_admin' => true,
-            'child' => [
-                [
-                    'name' => 'Peminjaman Buku',
-                    'route' => route('dashboard.transaction.index'),
-                ],
-                [
-                    'name' => 'Unduh laporan',
-                    'route' => null
-                ]
-            ],
         ],
         [
             'label' => 'Lainnya',
