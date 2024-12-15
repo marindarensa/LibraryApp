@@ -25,7 +25,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.student.create', [
+            'title' => 'Tambah Siswa'
+        ]);
     }
 
     /**
@@ -33,7 +35,15 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'grade' => 'required|string',
+        ]);
+
+        Student::create($validatedData);
+
+        return redirect()->route('dashboard.student.index')->with('success', 'Student has been added successfully!');
     }
 
     /**
@@ -49,7 +59,10 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('dashboard.student.edit', [
+            'title' => 'Edit Siswa',
+            'student' => Student::find($id)
+        ]);
     }
 
     /**
@@ -57,7 +70,17 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'grade' => 'required|string',
+        ]);
+
+        $student = Student::findOrFail($id);
+
+        $student->update($validatedData);
+  
+        return redirect()->route('dashboard.student.index')->with('success', 'Student has been updated successfully!');
     }
 
     /**
@@ -65,6 +88,9 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = Student::find($id);
+        $student->delete();
+
+        return redirect()->route('dashboard.student.index')->with('success', 'Student has been deleted successfully!');
     }
 }
