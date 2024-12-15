@@ -12,8 +12,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-        // return $books;
+        $books = Book::orderBy('created_at', 'desc')->get();
+        
         return view('dashboard.book.index', [
             'title' => 'Daftar Buku',
             'books' => $books
@@ -25,7 +25,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.book.create', [
+            'title' => 'Tambah Buku'
+        ]);
     }
 
     /**
@@ -33,7 +35,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'cover' => 'required|url',
+            'code' => 'required|string|max:50|unique:books,code', 
+        ]);
+
+        Book::create($validatedData);
+
+        return to_route('dashboard.book.index')->with('success', 'Book has been added successfully!');
     }
 
     /**
@@ -49,7 +61,12 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $book = Book::findOrFail($id);
+
+        return view('dashboard.book.edit', [
+            'title' => 'Edit Buku',
+            'book' => $book
+        ]);
     }
 
     /**
@@ -57,7 +74,18 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'cover' => 'required|url', 
+            'code' => 'required|string|max:50|unique:books,code,' . $id, 
+        ]);
+    
+        $book = Book::findOrFail($id);
+    
+        $book->update($validatedData);
+  
+        return to_route('dashboard.book.index')->with('success', 'Book has been updated successfully!');
     }
 
     /**
@@ -65,6 +93,9 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $book = Book::find($id);
+        $book->delete();
+
+        return to_route('dashboard.book.index')->with('success', 'Book has been deleted successfully!');
     }
 }
