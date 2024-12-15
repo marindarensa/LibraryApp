@@ -37,11 +37,16 @@
                                     <td>{{ $transaction->created_at }}</td>
                                     <td></td>
                                     <td style="display:flex;gap:12px">
-                                        <form action="{{ route('dashboard.transaction.return', $transaction->id) }}" method="POST"
-                                            style="display: inline-block">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success return-book">Kembalikan</button>
-                                        </form>
+                                        @if($transaction->status == 0)
+                                            <form action="{{ route('dashboard.transaction.return', $transaction->id) }}" method="POST"
+                                                style="display: inline-block">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success return-book">Kembalikan</button>
+                                            </form>
+                                        @else
+                                        <button type="submit" class="btn btn-success return-book disabled">Kembalikan</button>
+                                        @endif
+                                        
 
                                         <form action="{{ route('dashboard.transaction.destroy', $transaction->id) }}" method="POST"
                                             style="display: inline-block">
