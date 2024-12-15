@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Book;
 use App\Models\Student;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,8 +20,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Rensa',
+            'email' => 'rensa@gmail.com',
+            'password' => Hash::make('rensa123')
         ]);
 
         Book::factory(50)->create(); 

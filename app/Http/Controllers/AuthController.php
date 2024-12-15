@@ -105,7 +105,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            return to_route('user.index')->with('success', 'Selamat datang ' . $user->name . ' di aplikasi kami');
+            return to_route('dashboard.index')->with('success', 'Selamat datang ' . $user->name . ' di aplikasi kami');
         }
 
         return redirect()->back()->with('error', 'Email atau password salah');

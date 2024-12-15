@@ -17,7 +17,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login.auth
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::resource('book', BookController::class);

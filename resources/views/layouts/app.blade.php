@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>@yield('title') | Pengadilan Agama</title>
+    <title>@yield('title') | Rensa Library's</title>
 
     <meta name="description" content="" />
 

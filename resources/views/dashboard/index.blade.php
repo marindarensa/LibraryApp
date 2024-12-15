@@ -6,7 +6,7 @@
         <div class="col-lg-3 col-md-6 col-3 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <span class="fw-semibold d-block mb-3">Total Buku</span>
+                    <span class="fw-semibold d-block mb-3">Total Judul Buku</span>
                     <h3 class="card-title mb-2">{{ $amount_book }}</h3>
                 </div>
             </div>
